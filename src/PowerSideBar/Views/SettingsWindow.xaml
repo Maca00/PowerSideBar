@@ -331,6 +331,20 @@
                 <TextBlock DockPanel.Dock="Top" Text="{loc:Loc Key=settings.title}"
                            Foreground="White" FontSize="15" FontWeight="SemiBold"
                            Margin="16,20,16,16"/>
+                <Button x:Name="BtnKoFi" DockPanel.Dock="Bottom"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="12,0,12,14"
+                        HorizontalAlignment="Stretch"
+                        Padding="12,8"
+                        Click="BtnKoFi_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16" Height="16" Margin="0,0,8,0"
+                               Source="pack://application:,,,/Assets/Icons/ko-fi.png"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <TextBlock Text="{loc:Loc Key=settings.kofi}" VerticalAlignment="Center"
+                                   Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <StackPanel>
                     <Button x:Name="NavGeneral" Content="{loc:Loc Key=settings.nav.general}" Style="{StaticResource NavButtonActiveStyle}"
                             Click="Nav_Click" Tag="general"/>

@@ -32,14 +32,18 @@
 ## 🔨 Prerequisites
 
 - Windows 10/11
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (dev / build)
-- [WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) (included by default on Windows 11)
 
 ## 📦 Installation
 
 1. Download `PowerSideBar-win-Setup.exe` from the [GitHub Releases](https://github.com/Maca00/PowerSideBar/releases)
 2. Run the installer
 3. Updates download automatically (tray → *Check for updates*, or on startup)
+
+## 💖 Support me
+
+This project is developed and maintained in my spare time. If you enjoy my work, consider buying me a coffee on [Ko-fi](https://ko-fi.com/A8V826XP84)! ☕
+
+<a href='https://ko-fi.com/A8V826XP84' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ## License
 

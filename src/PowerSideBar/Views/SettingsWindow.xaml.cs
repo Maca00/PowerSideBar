@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -100,6 +101,15 @@ public partial class SettingsWindow : Window
             BtnCheckUpdates.IsEnabled = true;
             TxtAppVersion.Text = Loc.Tf("update.version_label", _updateService.CurrentVersion);
         }
+    }
+
+    private void BtnKoFi_Click(object sender, RoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "https://ko-fi.com/A8V826XP84",
+            UseShellExecute = true
+        });
     }
 
     private void SelectLanguage(string? language)
