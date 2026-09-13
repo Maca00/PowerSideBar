@@ -7,29 +7,37 @@ using System.Windows.Markup;
 namespace PowerSideBar.Services;
 
 /// <summary>
-/// Simple EN/FR localization. Default language is English.
+/// Simple EN/FR/ES localization. Default language is English.
 /// Call <see cref="SetLanguage"/> before creating UI; restart the app after a language change.
 /// </summary>
 public static class Loc
 {
     public const string English = "en";
     public const string French = "fr";
+    public const string Spanish = "es";
 
     private static string _language = English;
     private static IReadOnlyDictionary<string, string>? _strings;
 
     public static string Language => _language;
 
-    public static CultureInfo Culture =>
-        _language == French
-            ? CultureInfo.GetCultureInfo("fr-FR")
-            : CultureInfo.GetCultureInfo("en-US");
+    public static CultureInfo Culture => _language switch
+    {
+        French => CultureInfo.GetCultureInfo("fr-FR"),
+        Spanish => CultureInfo.GetCultureInfo("es-ES"),
+        _ => CultureInfo.GetCultureInfo("en-US"),
+    };
 
     public static void SetLanguage(string? language)
     {
         var lang = Normalize(language);
         _language = lang;
-        _strings = lang == French ? Fr : En;
+        _strings = lang switch
+        {
+            French => Fr,
+            Spanish => Es,
+            _ => En,
+        };
         try
         {
             CultureInfo.DefaultThreadCurrentCulture = Culture;
@@ -41,8 +49,14 @@ public static class Loc
         }
     }
 
-    public static string Normalize(string? language) =>
-        string.Equals(language, French, StringComparison.OrdinalIgnoreCase) ? French : English;
+    public static string Normalize(string? language)
+    {
+        if (string.Equals(language, French, StringComparison.OrdinalIgnoreCase))
+            return French;
+        if (string.Equals(language, Spanish, StringComparison.OrdinalIgnoreCase))
+            return Spanish;
+        return English;
+    }
 
     public static string T(string key)
     {
@@ -106,6 +120,7 @@ public static class Loc
         ["settings.language"] = "Language",
         ["settings.lang.en"] = "English",
         ["settings.lang.fr"] = "French",
+        ["settings.lang.es"] = "Spanish",
         ["settings.language_restart"] = "The app will restart to apply the new language.",
         ["settings.bar_side"] = "Sidebar position",
         ["settings.side.left"] = "Left",
@@ -369,6 +384,7 @@ public static class Loc
         ["settings.language"] = "Langue",
         ["settings.lang.en"] = "Anglais",
         ["settings.lang.fr"] = "Français",
+        ["settings.lang.es"] = "Espagnol",
         ["settings.language_restart"] = "L'application va redémarrer pour appliquer la nouvelle langue.",
         ["settings.bar_side"] = "Position de la barre",
         ["settings.side.left"] = "Gauche",
@@ -577,6 +593,265 @@ public static class Loc
         ["spotify.oauth_ok_title"] = "Connexion réussie",
         ["spotify.oauth_ok_body"] = "Vous pouvez fermer cette fenêtre et revenir à PowerSideBar.",
         ["spotify.unknown_error"] = "Erreur inconnue",
+    };
+
+    private static readonly Dictionary<string, string> Es = new()
+    {
+        ["common.cancel"] = "Cancelar",
+        ["common.ok"] = "OK",
+        ["common.add"] = "Añadir",
+        ["common.save"] = "Guardar",
+        ["common.loading"] = "Cargando...",
+        ["common.refresh"] = "Actualizar",
+        ["common.validation"] = "Validación",
+        ["common.close"] = "Cerrar",
+        ["common.delete"] = "Eliminar",
+        ["common.rename"] = "Renombrar",
+
+        ["builtin.weather"] = "Tiempo",
+        ["builtin.hue"] = "Hue",
+        ["builtin.shutters"] = "Persianas",
+
+        ["app.already_running"] = "PowerSideBar ya se está ejecutando.",
+        ["tray.show_hide"] = "Mostrar/Ocultar",
+        ["tray.auto_start"] = "Inicio con Windows",
+        ["tray.ad_block"] = "Bloqueador de anuncios",
+        ["tray.settings"] = "Ajustes",
+        ["tray.check_updates"] = "Buscar actualizaciones",
+        ["tray.quit"] = "Salir",
+
+        ["update.title"] = "Actualizaciones",
+        ["update.dev_only"] = "Las actualizaciones automáticas solo están disponibles con la versión instalada (Setup).",
+        ["update.check_failed"] = "No se pudieron comprobar las actualizaciones.\n{0}",
+        ["update.up_to_date"] = "Estás al día (v{0}).",
+        ["update.available_title"] = "Actualización de PowerSideBar",
+        ["update.available_body"] = "Hay una nueva versión disponible: v{0}\nVersión actual: v{1}\n\n¿Descargar y reiniciar ahora?",
+        ["update.apply_failed"] = "Error al descargar / instalar.\n{0}",
+        ["update.version_label"] = "Versión instalada: v{0}",
+        ["update.check_button"] = "Buscar actualizaciones",
+
+        ["settings.title"] = "Ajustes",
+        ["settings.nav.general"] = "General",
+        ["settings.nav.weather"] = "Tiempo",
+        ["settings.nav.hue"] = "Philips Hue",
+        ["settings.nav.shutters"] = "Persianas",
+        ["settings.nav.spotify"] = "Spotify",
+        ["settings.general.title"] = "General",
+        ["settings.general.subtitle"] = "Comportamiento de la aplicación y aspecto de la barra.",
+        ["settings.auto_start"] = "Iniciar automáticamente con Windows",
+        ["settings.ad_block"] = "Bloqueador de anuncios",
+        ["settings.language"] = "Idioma",
+        ["settings.lang.en"] = "Inglés",
+        ["settings.lang.fr"] = "Francés",
+        ["settings.lang.es"] = "Español",
+        ["settings.language_restart"] = "La aplicación se reiniciará para aplicar el nuevo idioma.",
+        ["settings.bar_side"] = "Posición de la barra",
+        ["settings.side.left"] = "Izquierda",
+        ["settings.side.right"] = "Derecha",
+        ["settings.bar_width"] = "Ancho de la barra",
+        ["settings.width.narrow"] = "Estrecho",
+        ["settings.width.normal"] = "Normal",
+        ["settings.width.wide"] = "Ancho",
+        ["settings.updates"] = "Actualizaciones",
+        ["settings.weather.title"] = "Tiempo",
+        ["settings.weather.subtitle"] = "Busca una ciudad o código postal con Open-Meteo y selecciona un resultado.",
+        ["settings.weather.enable"] = "Mostrar Tiempo en la barra",
+        ["settings.weather.search"] = "Buscar una ciudad o código postal",
+        ["settings.weather.city"] = "Ciudad: {0}",
+        ["settings.weather.no_city"] = "Ninguna ciudad seleccionada",
+        ["settings.weather.no_results"] = "Sin resultados.",
+        ["settings.weather.search_error"] = "Error de búsqueda. Inténtalo de nuevo.",
+        ["settings.weather.need_city"] = "Selecciona una ciudad de los resultados antes de guardar.",
+        ["settings.weather.min_chars"] = "Introduce al menos 2 caracteres…",
+        ["settings.weather.searching"] = "Buscando…",
+        ["settings.weather.results_count"] = "{0} resultado(s) — selecciona una ciudad.",
+        ["settings.hue.title"] = "Philips Hue",
+        ["settings.hue.subtitle"] = "Conecta tu puente Hue y controla las luces desde la barra.",
+        ["settings.hue.enable"] = "Mostrar Hue en la barra",
+        ["settings.hue.ip"] = "IP del puente",
+        ["settings.hue.key"] = "Clave API",
+        ["settings.shutters.title"] = "Persianas",
+        ["settings.shutters.subtitle"] = "Ajustes de conexión a la caja Dooya SHC.",
+        ["settings.shutters.enable"] = "Mostrar Persianas en la barra",
+        ["settings.shutters.host"] = "Host / IP",
+        ["settings.shutters.port"] = "Puerto",
+        ["settings.shutters.user"] = "Usuario",
+        ["settings.shutters.password"] = "Contraseña",
+        ["settings.shutters.host_id"] = "Host ID",
+        ["settings.shutters.port_invalid"] = "Puerto de persianas no válido (1–65535).",
+        ["settings.spotify.title"] = "Spotify",
+        ["settings.spotify.subtitle"] = "Credenciales de Spotify Developer para controlar la reproducción.",
+        ["settings.spotify.enable"] = "Mostrar Spotify en la barra",
+        ["settings.spotify.client_id"] = "Client ID",
+        ["settings.spotify.client_secret"] = "Client Secret",
+
+        ["sidebar.back"] = "Atrás",
+        ["sidebar.forward"] = "Adelante",
+        ["sidebar.home"] = "Inicio",
+        ["sidebar.refresh"] = "Actualizar",
+        ["sidebar.add_shortcut"] = "Añadir acceso directo",
+        ["sidebar.settings"] = "Ajustes",
+        ["sidebar.spotify"] = "Spotify",
+        ["sidebar.like"] = "Me gusta",
+        ["sidebar.previous"] = "Anterior",
+        ["sidebar.play_pause"] = "Play/Pause",
+        ["sidebar.next"] = "Siguiente",
+        ["menu.rename_group"] = "Renombrar grupo",
+        ["menu.delete_group"] = "Eliminar grupo",
+        ["menu.rename"] = "Renombrar",
+        ["menu.user_agent"] = "User Agent",
+        ["menu.ua_mobile"] = "Móvil",
+        ["menu.ua_desktop"] = "Escritorio",
+        ["menu.keep_background"] = "Mantener en segundo plano",
+        ["menu.overlay"] = "Modo superposición",
+        ["menu.close_on_collapse"] = "Cerrar al contraer",
+        ["menu.close_on_collapse_tip"] = "En el segundo clic, cierra la pestaña y libera memoria (si no, permanece en segundo plano)",
+        ["menu.move_to_group"] = "Mover a...",
+        ["menu.close_tab"] = "Cerrar pestaña",
+        ["menu.delete"] = "Eliminar",
+        ["menu.no_group"] = "Sin grupo",
+        ["menu.new_group"] = "Nuevo grupo...",
+        ["dialog.new_group"] = "Nuevo grupo",
+        ["dialog.rename"] = "Renombrar",
+        ["dialog.rename_group"] = "Renombrar grupo",
+        ["dialog.add_shortcut"] = "Añadir acceso directo",
+        ["webview.runtime_missing"] = "No se encontró WebView2 Runtime.\nInstálalo desde:\nhttps://developer.microsoft.com/en-us/microsoft-edge/webview2/\n\nError: {0}",
+        ["webview.runtime_title"] = "PowerSideBar - Error",
+        ["dialog.name"] = "Nombre:",
+        ["dialog.url"] = "URL:",
+        ["dialog.browse_icon"] = "Elegir icono...",
+        ["dialog.name_required"] = "Introduce un nombre.",
+        ["dialog.url_required"] = "Introduce una URL.",
+        ["confirm.delete_shortcut"] = "¿Eliminar el acceso directo \"{0}\"?",
+        ["confirm.delete_group"] = "¿Eliminar el grupo \"{0}\"? Los accesos directos quedarán sin grupo.",
+        ["confirm.title"] = "Confirmar",
+
+        ["weather.loading"] = "Cargando...",
+        ["weather.gusts"] = "Ráf.",
+        ["weather.next_days"] = "PRÓXIMOS DÍAS",
+        ["weather.today"] = "HOY",
+        ["weather.load_error"] = "No se pudo cargar el tiempo.\nComprueba tu conexión.",
+        ["weather.clear"] = "Cielo despejado",
+        ["weather.mainly_clear"] = "Mayormente despejado",
+        ["weather.partly_cloudy"] = "Parcialmente nublado",
+        ["weather.overcast"] = "Cubierto",
+        ["weather.fog"] = "Niebla",
+        ["weather.drizzle_light"] = "Llovizna ligera",
+        ["weather.drizzle"] = "Llovizna",
+        ["weather.drizzle_dense"] = "Llovizna densa",
+        ["weather.drizzle_freezing"] = "Llovizna helada",
+        ["weather.rain_light"] = "Lluvia ligera",
+        ["weather.rain"] = "Lluvia",
+        ["weather.rain_heavy"] = "Lluvia intensa",
+        ["weather.rain_freezing"] = "Lluvia helada",
+        ["weather.snow_light"] = "Nieve ligera",
+        ["weather.snow"] = "Nieve",
+        ["weather.snow_heavy"] = "Nieve intensa",
+        ["weather.snow_grains"] = "Granos de nieve",
+        ["weather.showers_light"] = "Chubascos ligeros",
+        ["weather.showers"] = "Chubascos",
+        ["weather.showers_violent"] = "Chubascos violentos",
+        ["weather.snow_showers"] = "Chubascos de nieve",
+        ["weather.snow_showers_heavy"] = "Fuertes chubascos de nieve",
+        ["weather.thunderstorm"] = "Tormenta",
+        ["weather.thunderstorm_hail"] = "Tormenta / granizo",
+        ["weather.unknown"] = "Desconocido",
+
+        ["hue.connect_network"] = "Conecta tu puente Philips Hue a la misma red que este PC.",
+        ["hue.search_bridge"] = "Buscar puente",
+        ["hue.searching"] = "Buscando puente...",
+        ["hue.bridge_found"] = "Puente encontrado",
+        ["hue.press_button_1"] = "Pulsa el ",
+        ["hue.press_button_2"] = "botón físico",
+        ["hue.press_button_3"] = " del puente,\nluego haz clic en Conectar.",
+        ["hue.connect"] = "Conectar",
+        ["hue.connecting"] = "Conectando...",
+        ["hue.retry"] = "Reintentar",
+        ["hue.reconfigure"] = "Reconfigurar puente",
+        ["hue.home"] = "Casa",
+        ["hue.rooms"] = "HABITACIONES",
+        ["hue.scenes"] = "ESCENAS",
+        ["hue.lights"] = "LUCES",
+        ["hue.no_rooms"] = "No se encontraron habitaciones.\nComprueba la configuración de Hue.",
+        ["hue.bridge_error"] = "Error de conexión al puente:\n{0}",
+        ["hue.no_bridge"] = "No se encontró ningún puente Philips Hue en la red.\nAsegúrate de que esté encendido y conectado.",
+        ["hue.pair_error"] = "Error de emparejamiento.",
+
+        ["shutters.connecting"] = "Conectando a la caja…",
+        ["shutters.reconnect"] = "Reconectar",
+        ["shutters.title"] = "Persianas",
+        ["shutters.all"] = "TODAS LAS PERSIANAS",
+        ["shutters.up"] = "Subir",
+        ["shutters.stop"] = "Parar",
+        ["shutters.down"] = "Bajar",
+        ["shutters.all_up"] = "Subir todas",
+        ["shutters.all_stop"] = "Parar todas",
+        ["shutters.all_down"] = "Bajar todas",
+        ["shutters.ground_floor"] = "PLANTA BAJA",
+        ["shutters.floor"] = "PISO SUPERIOR",
+        ["shutters.close_floor"] = "Cerrar",
+        ["shutters.close_gf_tip"] = "Cerrar planta baja",
+        ["shutters.close_floor_tip"] = "Cerrar piso superior",
+        ["shutters.sending"] = "Enviando…",
+        ["shutters.connect_failed"] = "No se pudo conectar a {0}:{1}.\nComprueba la IP y las credenciales en Ajustes.",
+        ["shutters.auth_failed"] = "Autenticación fallida (usuario: {0}).\n{1}",
+        ["shutters.timeout"] = "Tiempo de espera agotado al conectar a {0}:{1}.\n¿Está la caja encendida y accesible?",
+        ["shutters.network_error"] = "Error de red: {0}\n({1}:{2})",
+        ["shutters.connect_error"] = "Error de conexión: {0}",
+        ["shutters.login_no_response"] = "Sin respuesta tras el login (~{0} ms).",
+        ["shutters.login_response"] = "Respuesta: \"{0}\" ({1})\nDuración de lectura: {2} ms",
+        ["shutters.conn_closed"] = "Conexión cerrada.",
+        ["shutters.hver_no_response"] = "HverRsp: sin respuesta o trama demasiado corta.",
+        ["shutters.hver_unexpected"] = "Tras HverReq, recibido: {0} (se esperaba HverRsp).",
+        ["shutters.dall_empty"] = "DallRsp recibido: deviceCount={0}. Ningún dispositivo filtrado como persiana.",
+        ["shutters.frames_no_dall"] = "Tramas recibidas: {0}. Sin DallRsp.",
+        ["shutters.no_frames"] = "Ninguna trama recibida tras GetaReq (timeout 15s).",
+        ["shutters.timeout_frames"] = "Timeout. Tramas: {0}. Sin DallRsp.",
+        ["shutters.timeout_geta"] = "Timeout de 15s tras GetaReq.",
+        ["shutters.error"] = "Error: {0}",
+        ["shutters.none_found"] = "Conectado, pero no se encontraron persianas en la caja.",
+        ["shutters.none_found_diag"] = "Conectado, pero no se encontraron persianas en la caja.\n\nDiagnóstico: {0}",
+
+        ["spotify.not_connected"] = "No conectado",
+        ["spotify.connect"] = "Conectar a Spotify",
+        ["spotify.no_playback"] = "Nada en reproducción",
+        ["spotify.disconnect"] = "Desconectar",
+        ["spotify.on_device"] = "En: {0}",
+        ["spotify.connected"] = "Conectado",
+        ["spotify.connected_ok"] = "Conectado a Spotify",
+        ["spotify.not_configured"] = "Client ID / Secret de Spotify no configurados",
+        ["spotify.disconnected"] = "Desconectado",
+        ["spotify.opening_browser"] = "Abriendo el navegador...",
+        ["spotify.browser_failed"] = "No se pudo abrir el navegador",
+        ["spotify.wait_auth"] = "Esperando autorización en el navegador...",
+        ["spotify.auth_cancelled"] = "Autorización cancelada",
+        ["spotify.exchanging"] = "Intercambiando código...",
+        ["spotify.auth_failed"] = "Autenticación fallida",
+        ["spotify.auth_error"] = "Error de autorización",
+        ["spotify.session_expired"] = "Sesión caducada",
+        ["spotify.session_expired_reauth"] = "Sesión caducada, vuelve a conectarte",
+        ["spotify.premium_required"] = "Se requiere Spotify Premium",
+        ["spotify.premium_playback"] = "Se requiere Spotify Premium para controlar la reproducción",
+        ["spotify.no_device_volume"] = "Ningún dispositivo Spotify activo para ajustar el volumen",
+        ["spotify.playing"] = "Reproduciendo",
+        ["spotify.paused"] = "En pausa",
+        ["spotify.no_playback_status"] = "Nada en reproducción",
+        ["spotify.fetch_error"] = "Error al obtener la reproducción",
+        ["spotify.searching_device"] = "Buscando un dispositivo Spotify...",
+        ["spotify.no_device"] = "Ningún dispositivo Spotify disponible. Abre Spotify en un dispositivo e inténtalo de nuevo.",
+        ["spotify.transferring"] = "Transfiriendo a {0}...",
+        ["spotify.transfer_failed"] = "No se pudo transferir la reproducción",
+        ["spotify.api_error"] = "Error de la API de Spotify",
+        ["spotify.no_track_like"] = "Ninguna pista de Spotify para añadir a Me gusta",
+        ["spotify.like_auth"] = "Se requiere autorización de Spotify para Me gusta",
+        ["spotify.like_scope"] = "Spotify no concedió permisos de Me gusta",
+        ["spotify.like_unsupported"] = "Este contenido no se puede añadir a Me gusta",
+        ["spotify.like_failed"] = "Error en Me gusta: {0}",
+        ["spotify.like_error"] = "Error al actualizar Me gusta",
+        ["spotify.oauth_fail_title"] = "Conexión fallida",
+        ["spotify.oauth_ok_title"] = "Conectado",
+        ["spotify.oauth_ok_body"] = "Puedes cerrar esta ventana y volver a PowerSideBar.",
+        ["spotify.unknown_error"] = "Error desconocido",
     };
 }
 

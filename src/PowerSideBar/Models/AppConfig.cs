@@ -14,7 +14,7 @@ public class AppConfig
     /// <summary>"left" or "right" — which screen edge the sidebar docks to.</summary>
     public string SidebarSide { get; set; } = "right";
 
-    /// <summary>"en" or "fr" — UI language (default English).</summary>
+    /// <summary>"en", "fr" or "es" — UI language (default English).</summary>
     public string Language { get; set; } = "en";
 
     /// <summary>Update version the user dismissed (silent prompt snooze).</summary>

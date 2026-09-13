@@ -40,7 +40,7 @@ public sealed class WeatherService
         var url =
             "https://geocoding-api.open-meteo.com/v1/search"
             + $"?name={Uri.EscapeDataString(query)}"
-            + "&count=8&language=fr&format=json";
+            + $"&count=8&language={Loc.Language}&format=json";
 
         var json = await HttpClient.GetStringAsync(url, cancellationToken);
         var response = JsonSerializer.Deserialize<GeocodingResponse>(json);

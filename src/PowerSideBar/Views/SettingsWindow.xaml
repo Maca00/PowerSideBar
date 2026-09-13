@@ -373,6 +373,7 @@
                                   Style="{StaticResource DarkComboBox}">
                             <ComboBoxItem Tag="en" Content="{loc:Loc Key=settings.lang.en}"/>
                             <ComboBoxItem Tag="fr" Content="{loc:Loc Key=settings.lang.fr}"/>
+                            <ComboBoxItem Tag="es" Content="{loc:Loc Key=settings.lang.es}"/>
                         </ComboBox>
 
                         <TextBlock Text="{loc:Loc Key=settings.bar_side}" Style="{StaticResource FieldLabel}" Margin="0,8,0,10"/>
