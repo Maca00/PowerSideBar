@@ -329,7 +329,7 @@
                                                     PreviewMouseMove="Shortcut_PreviewMouseMove">
                                                 <Button.ContextMenu>
                                                     <ContextMenu Opened="ShortcutContextMenu_Opened">
-                                                        <MenuItem Header="{loc:Loc menu.rename}" Click="MenuRename_Click"/>
+                                                        <MenuItem x:Name="MenuRename" Header="{loc:Loc menu.rename}" Click="MenuRename_Click"/>
                                                         <MenuItem Header="{loc:Loc menu.user_agent}">
                                                             <MenuItem x:Name="MenuUaMobile" Header="{loc:Loc menu.ua_mobile}" Click="MenuUaMobile_Click" IsCheckable="True"/>
                                                             <MenuItem x:Name="MenuUaDesktop" Header="{loc:Loc menu.ua_desktop}" Click="MenuUaDesktop_Click" IsCheckable="True"/>
@@ -345,7 +345,7 @@
                                                         <MenuItem x:Name="MenuMoveToGroup" Header="{loc:Loc menu.move_to_group}"/>
                                                         <Separator/>
                                                         <MenuItem Header="{loc:Loc menu.close_tab}" Click="MenuCloseTab_Click"/>
-                                                        <MenuItem Header="{loc:Loc menu.delete}" Click="MenuDelete_Click"/>
+                                                        <MenuItem x:Name="MenuDelete" Header="{loc:Loc menu.delete}" Click="MenuDelete_Click"/>
                                                     </ContextMenu>
                                                 </Button.ContextMenu>
                                                 <Grid Width="28" Height="28">

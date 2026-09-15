@@ -1496,6 +1496,14 @@ public partial class SidebarWindow : Window
                 mi.IsChecked = item.CloseOnCollapse;
                 mi.Visibility = isBuiltIn ? Visibility.Collapsed : Visibility.Visible;
             }
+            else if (mi.Name == "MenuDelete")
+            {
+                mi.Visibility = isBuiltIn ? Visibility.Collapsed : Visibility.Visible;
+            }
+            else if (mi.Name == "MenuRename")
+            {
+                mi.Visibility = isBuiltIn ? Visibility.Collapsed : Visibility.Visible;
+            }
             else if (mi.Name == "MenuMoveToGroup")
             {
                 BuildMoveToGroupSubmenu(mi, item);
@@ -2091,10 +2099,8 @@ public partial class SidebarWindow : Window
                                     if (current?.OverlayMode != true || !_viewModel.IsExpanded)
                                         return;
 
-                                    current.IsSelected = false;
-                                    _viewModel.SelectedShortcut = null;
-                                    if (_viewModel.IsExpanded)
-                                        _viewModel.ToggleExpandCommand.Execute(null);
+                                    // Same path as second-click: collapse + CloseOnCollapse / hide tab
+                                    _viewModel.DeselectCurrentContent();
                                 }
                                 finally
                                 {

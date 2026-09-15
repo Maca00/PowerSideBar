@@ -102,6 +102,7 @@ public partial class HueLightViewModel : ObservableObject
 
     private double? _xyX;
     private double? _xyY;
+    private bool _suppressBrightnessApi;
 
     // Card background for room detail grid
     public Brush CardBackground
@@ -170,6 +171,7 @@ public partial class HueLightViewModel : ObservableObject
     {
         OnPropertyChanged(nameof(CardBackground));
         _onStateChanged?.Invoke();
+        if (_suppressBrightnessApi) return;
         _ = SendDebouncedAsync(() => _service.SetBrightnessAsync(
             _config.HueBridgeIp, _config.HueApiKey, Id, value));
     }
@@ -177,11 +179,10 @@ public partial class HueLightViewModel : ObservableObject
     /// <summary>Updates brightness locally (e.g. room master slider) without a per-light API call.</summary>
     public void ApplyLocalBrightness(double value)
     {
-        if (Math.Abs(_brightness - value) < 0.05) return;
-        _brightness = value;
-        OnPropertyChanged(nameof(Brightness));
-        OnPropertyChanged(nameof(CardBackground));
-        _onStateChanged?.Invoke();
+        if (Math.Abs(Brightness - value) < 0.05) return;
+        _suppressBrightnessApi = true;
+        try { Brightness = value; }
+        finally { _suppressBrightnessApi = false; }
     }
 
     partial void OnColorTempMirekChanged(int value) =>

@@ -31,7 +31,7 @@ namespace PowerSideBar.Services;
 /// </summary>
 public class ShutterService : IDisposable
 {
-    private const bool EnableTrace = false;
+    private static bool EnableTrace = false;
     // Dooya SHCP1 login response prefix
     private const string LoginResponsePrefix = "UlogRsp";
 
